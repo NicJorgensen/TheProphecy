@@ -1,0 +1,10 @@
+C:\source\codeworks\theprophecy\bin\Debug\netcoreapp2.0\theprophecy.deps.json
+C:\source\codeworks\theprophecy\bin\Debug\netcoreapp2.0\theprophecy.runtimeconfig.json
+C:\source\codeworks\theprophecy\bin\Debug\netcoreapp2.0\theprophecy.runtimeconfig.dev.json
+C:\source\codeworks\theprophecy\bin\Debug\netcoreapp2.0\theprophecy.dll
+C:\source\codeworks\theprophecy\bin\Debug\netcoreapp2.0\theprophecy.pdb
+C:\source\codeworks\theprophecy\obj\Debug\netcoreapp2.0\theprophecy.csproj.CoreCompileInputs.cache
+C:\source\codeworks\theprophecy\obj\Debug\netcoreapp2.0\theprophecy.AssemblyInfoInputs.cache
+C:\source\codeworks\theprophecy\obj\Debug\netcoreapp2.0\theprophecy.AssemblyInfo.cs
+C:\source\codeworks\theprophecy\obj\Debug\netcoreapp2.0\theprophecy.dll
+C:\source\codeworks\theprophecy\obj\Debug\netcoreapp2.0\theprophecy.pdb
