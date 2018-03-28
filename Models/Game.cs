@@ -77,7 +77,7 @@ namespace theprophecy.Models
 
                     Each door looks the same. You entered from the south. 
 
-                    The other 7 doors are at the remaining cardinal direction and each intermediate direction.");
+                    The other 7 doors are at the remaining cardinal directions and each intermediate direction.");
             Room brainRoom = new Room("The Brain Room", @"A Long rectangular room. There are low hanging lamps that float over countless tanks full of a green solution.
 
                     Floating in the solution in each tank are what appear to be human brains. There's a bright blue light at the end of the room. 
@@ -1007,6 +1007,145 @@ namespace theprophecy.Models
                 }
                 #endregion
 
+                #region ROOMFIVE
+                else if (this.CurrentRoom == this.Rooms[4])
+                {
+                    Console.Clear();
+                    System.Console.WriteLine(@"
+                    --------------------------------------------------------------------------------------------------- 
+                                                THE PROPHECY: ESCAPE THE DEPARTMENT OF MYSTERIES           
+                    ---------------------------------------------------------------------------------------------------");
+                    System.Console.WriteLine(@"
+                                                                    COMMANDS:
+
+                      Go <Direction>   Take <ItemName>   Use <ItemName>   Search <ItemName>   Look   Inventory   Quit   
+                    --------------------------------------------------------------------------------------------------- 
+            ");
+                    System.Console.WriteLine($@"
+{this.CurrentRoom.Name}            
+
+");
+                    bool roomFive = true;
+                    while (roomFive)
+                    {
+                        System.Console.Write(">");
+                        string command = Console.ReadLine();
+                        this.Player.Moves++;
+
+                        //GO
+                        if (command.ToLower().StartsWith("go"))
+                        {
+                            if (this.CurrentRoom.Directions.ContainsKey(command))
+                            {
+                                this.CurrentRoom = this.CurrentRoom.Directions[command];
+                                roomFive = false;
+                            }
+                            else if (command.ToLower() == "go south west")
+                            {
+                                System.Console.WriteLine(@"
+                    You try the door, but it's locked.
+
+                    From below the door you can see a pink glow.
+
+                    The group walks up behind you.
+
+                            “It smells like new parchment and freshly mown grass...” says Hermione as she takes a whiff.
+
+                            “I smell fresh chocolate chip cookies!” said Ron in excitement.
+
+                            “Smells like bumbleberry jam.” said Luna.
+
+                    You can smell Ginny's perfume, but that's probably just because she's standing next to you.
+
+                            “We should avoid that room.” says Hermione “It must be full of Amortentia, the love potion.”
+
+                    You begin to blush, avoid the gaze of your friends and head back to the middle of the room.
+                                
+                                ");
+                            }
+                            else if (command.ToLower() == "go north east")
+                            {
+                                System.Console.WriteLine(@"
+                    You can hear the other side of the door before you even try the handle.
+
+                    It sounds as though an entire band has gone into a full fledged war.
+
+                    Trumpets were shouting, cymballs clanging, drums beating to no particular rhythm.
+
+                    Luna gets an excited look on her face and jumps ahead of you to open the door.
+
+                    As she does so, a particularly aggressive trombone turns to her and begins to fly straight at her, playing Beethoven’s 5th.
+
+                            “Look out!” cries Neville as he reaches for the handle and pulls the door closed.
+
+                            “Oh thank you Neville. I was so caught up in that music.”
+
+                            “Didn't sound like music to me” grumbled Ron. Hermione gave the back of his head a tweak.
+
+                    Everyone moves back to the middle of the room.
+
+                                ");
+                            }
+                            else if (command.ToLower() == "go")
+                            {
+                                System.Console.WriteLine(@"
+                    You can't wander these halls aimlessly. Specify a direction.
+                    
+                    ");
+                            }
+                            else System.Console.WriteLine(@"
+                    You can't go that way.
+                    
+                    ");
+                        }
+                        //TAKE
+                        //USE
+                        //SEARCH
+                        //LOOK
+                        if (command.ToLower() == "look")
+                        {
+                            System.Console.WriteLine($@"
+                    {this.CurrentRoom.Description}
+
+                            ");
+                        }
+                        //INVENTORY
+                        if (command.ToLower() == "inventory")
+                        {
+                            System.Console.WriteLine($@"
+                    Score: {this.Player.Score}  Moves: {this.Player.Moves}
+                    ------------------------------------------
+                                    INVENTORY:
+                            ");
+                            this.Player.Inventory.ForEach(Item =>
+                            {
+                                System.Console.WriteLine($@"
+                    {Item.Name}: {Item.Description}
+                            ");
+                            });
+                            System.Console.WriteLine(@"
+                    ------------------------------------------   
+
+                            ");
+                        }
+                        //QUIT
+                        if (command.ToLower() == "quit")
+                        {
+                            System.Console.WriteLine(@"
+                    Are you sure you'd like to quit? (Y/N)
+
+                            ");
+                            System.Console.Write(">");
+                            string quit = Console.ReadLine();
+                            if (quit.ToLower() == "y")
+                            {
+                                playGame = false;
+                                roomFive = false;
+                            }
+                        }
+                    }
+                }
+                #endregion
             }
 
             System.Console.WriteLine(@"
