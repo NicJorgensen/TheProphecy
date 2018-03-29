@@ -39,7 +39,7 @@ namespace theprophecy.Models
             Item beans = new Item("Bertie Bott's Every Flavour Beans", "Many flavors such as Cherry, Watermelon and Earwax!");
             Item parchment = new Item("Parchment", "A crumpled up piece of parchment with just one word printed on it, “legilimens”.");
             Item uranus = new Item("Uranus", "A mysterious blue planet with silvery rings. Found in the Planet Room.");
-            // Item wand = new Item("", "");
+            Item gear = new Item("Gear", "A small, bronze, circular gear. It looks like it's part of some kind of mechanism.");
             // Item wand = new Item("", "");
             // Item wand = new Item("", "");
             // Item wand = new Item("", "");
@@ -52,6 +52,7 @@ namespace theprophecy.Models
             game.Items.Add("cloak", cloak);
             game.Items.Add("parchment", parchment);
             game.Items.Add("uranus", uranus);
+            game.Items.Add("gear", gear);
 
             //CREATE ROOMS
             //HOGWARTS
@@ -60,7 +61,7 @@ namespace theprophecy.Models
                     There's a trunk sitting at the base of your bed. To the east are the exit stairs to the Common Room.");
             Room commonRoom = new Room("Gryffindor Common Room", @"The living quarters of the Gryffindor students in Gryffindor Tower. 
 
-                    The fire is roaring in the large fireplace which provides light for the room. Stars can be seen outside of the large windows. 
+                    There's a large fireplace with a beautiful mantle and a fire burning in it. Stars can be seen outside of the large windows. 
 
                     To the west is the boys dormitory, to the east is the girl's dormitory, and to the south is the exit.");
             //MINISTRY OF MAGIC
@@ -139,8 +140,9 @@ namespace theprophecy.Models
             commonRoom.Items.Add("beans", beans);
             entryRoom.Items.Add("parchment", parchment);
             planetRoom.Items.Add("uranus", uranus);
+            deathRoom.Items.Add("gear", gear);
 
-            //ADD EVERYTHING TO THE GAME
+            //ADD ROOMS TO THE GAME
             game.Rooms.Add(boysRoom);//0
             game.Rooms.Add(commonRoom);//1
             game.Rooms.Add(entryRoom);//2
@@ -167,13 +169,14 @@ namespace theprophecy.Models
             System.Console.WriteLine(@"
                                                                     COMMANDS:
 
-                      Go <Direction>   Take <ItemName>   Use <ItemName>   Search <ItemName>   Look   Inventory   Quit   
+                          Go <Direction>   Take <Item>   Use <Item>   Search <Item/Room>   Look   Inventory   Quit   
                     --------------------------------------------------------------------------------------------------- 
             ");
             System.Console.WriteLine($@"
 {this.CurrentRoom.Name}
 
                     There’s a flash of green light. You see a room lined with endless shelves of swirling blue orbs. 
+
                     A man, somewhere, is screaming. Everything goes dark. Everything goes silent. . .
 
                             “Harry. . . Harry, wake up. Come on, Harry. It’s time!”
@@ -202,7 +205,7 @@ namespace theprophecy.Models
                         System.Console.WriteLine(@"
                                                                     COMMANDS:
 
-                      Go <Direction>   Take <ItemName>   Use <ItemName>   Search <ItemName>   Look   Inventory   Quit   
+                          Go <Direction>   Take <Item>   Use <Item>   Search <Item/Room>   Look   Inventory   Quit   
                     --------------------------------------------------------------------------------------------------- 
             ");
                         System.Console.WriteLine($@"
@@ -220,12 +223,12 @@ namespace theprophecy.Models
                         //GO
                         if (command.ToLower().StartsWith("go"))
                         {
-                            if (this.CurrentRoom.Directions.ContainsKey(command))
+                            if (this.CurrentRoom.Directions.ContainsKey(command.ToLower()))
                             {
-                                this.CurrentRoom = this.CurrentRoom.Directions[command];
+                                this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
                                 roomOne = false;
                             }
-                            else if (command == "go")
+                            else if (command.ToLower() == "go")
                             {
                                 System.Console.WriteLine(@"
                     You can't wander these halls aimlessly. Specify a direction.
@@ -365,7 +368,7 @@ namespace theprophecy.Models
                     System.Console.WriteLine(@"
                                                                     COMMANDS:
 
-                      Go <Direction>   Take <ItemName>   Use <ItemName>   Search <ItemName>   Look   Inventory   Quit   
+                          Go <Direction>   Take <Item>   Use <Item>   Search <Item/Room>   Look   Inventory   Quit   
                     --------------------------------------------------------------------------------------------------- 
             ");
                     System.Console.WriteLine($@"
@@ -392,11 +395,15 @@ namespace theprophecy.Models
                         //GO
                         if (command.ToLower().StartsWith("go"))
                         {
-                            if (this.CurrentRoom.Directions.ContainsKey(command))
+                            if (this.CurrentRoom.Directions.ContainsKey(command.ToLower()))
                             {
-                                if (command.ToLower() == "go south")
+                                if (this.Player.Inventory.Contains(this.Items["wand"]) && command.ToLower() == "go south")
                                 {
-                                    System.Console.WriteLine(@"
+
+                                    if (command.ToLower() == "go south")
+                                    {
+                                        #region 
+                                        System.Console.WriteLine(@"
                             “Alright everybody, let’s do this.”, says Ron.
 
                     Everyone begins towards to exit of the Common Room.
@@ -404,11 +411,17 @@ namespace theprophecy.Models
                             “Are you ready Harry? You've got your wand, right?” (Y/N)
 
                                     ");
-                                    System.Console.Write(">");
-                                    string answer = Console.ReadLine();
-                                    if (answer.ToLower() == "y")
-                                    {
-                                        System.Console.WriteLine(@"
+                                        System.Console.Write(">");
+                                        string answer = Console.ReadLine();
+                                        if (answer.ToLower() == "y")
+                                        {
+                                            Console.Clear();
+                                            System.Console.WriteLine(@"
+                    --------------------------------------------------------------------------------------------------- 
+                                                THE PROPHECY: ESCAPE THE DEPARTMENT OF MYSTERIES           
+                    ---------------------------------------------------------------------------------------------------");
+
+                                            System.Console.WriteLine(@"
                     You and your friends quietly leave the Common Room through the portrait of the Fat Lady, who appears to be sleeping.
 
                     As you sneak out of the school, you have to avoid Filch and his cat, Mrs. Norris. 
@@ -429,7 +442,7 @@ namespace theprophecy.Models
 
                     Not from flying, you’re used to that. This is a gutsy mission. But we have to do it. We must get that Prophecy.
 
-                                    --------------------------------------------------------------------------------------------------- 
+                    --------------------------------------------------------------------------------------------------- 
 
                     You’ve flown to the Ministry and snuck in through the Guest Entrance. You and your friends have made the way down to the 9th floor.
 
@@ -438,14 +451,14 @@ namespace theprophecy.Models
                             (Press Enter to Continue)
 
                                         ");
-                                        Console.Write(">");
-                                        Console.ReadLine();
-                                        this.CurrentRoom = this.CurrentRoom.Directions[command];
-                                        roomTwo = false;
-                                    }
-                                    else
-                                    {
-                                        System.Console.WriteLine(@"
+                                            Console.Write(">PRESS ENTER<");
+                                            Console.ReadLine();
+                                            this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
+                                            roomTwo = false;
+                                        }
+                                        else
+                                        {
+                                            System.Console.WriteLine(@"
                     You take a step back.
 
                             “I’m not quite ready.”
@@ -455,12 +468,36 @@ namespace theprophecy.Models
                             “Thanks, Luna.”
                                         
                                         ");
+                                        }
+                                        #endregion
+                                    }
+                                    else
+                                    {
+                                        this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
+                                        roomTwo = false;
                                     }
                                 }
                                 else
                                 {
-                                    this.CurrentRoom = this.CurrentRoom.Directions[command];
-                                    roomTwo = false;
+                                    if (command.ToLower() == "go south")
+                                    {
+
+                                        System.Console.WriteLine(@"
+                            “Harry! You've got to get your wand!” says Hermione.
+
+                            “Oh of course.” you reply.
+
+                            “Come on, mate. You're almost as forgetful as Neville.” jokes Ron.
+
+                    You give Neville an awkward glance and he just shrugs.
+                                    
+                                    ");
+                                    }
+                                    else
+                                    {
+                                        this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
+                                        roomTwo = false;
+                                    }
                                 }
                             }
                             else if (command.ToLower() == "go")
@@ -615,7 +652,7 @@ namespace theprophecy.Models
                     System.Console.WriteLine(@"
                                                                     COMMANDS:
 
-                      Go <Direction>   Take <ItemName>   Use <ItemName>   Search <ItemName>   Look   Inventory   Quit   
+                          Go <Direction>   Take <Item>   Use <Item>   Search <Item/Room>   Look   Inventory   Quit   
                     --------------------------------------------------------------------------------------------------- 
             ");
                     System.Console.WriteLine($@"
@@ -632,9 +669,9 @@ namespace theprophecy.Models
                         //GO
                         if (command.ToLower().StartsWith("go"))
                         {
-                            if (this.CurrentRoom.Directions.ContainsKey(command))
+                            if (this.CurrentRoom.Directions.ContainsKey(command.ToLower()))
                             {
-                                this.CurrentRoom = this.CurrentRoom.Directions[command];
+                                this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
                                 roomThree = false;
                             }
                             else if (command.ToLower() == "go")
@@ -826,7 +863,7 @@ namespace theprophecy.Models
                     System.Console.WriteLine(@"
                                                                     COMMANDS:
 
-                      Go <Direction>   Take <ItemName>   Use <ItemName>   Search <ItemName>   Look   Inventory   Quit   
+                          Go <Direction>   Take <Item>   Use <Item>   Search <Item/Room>   Look   Inventory   Quit   
                     --------------------------------------------------------------------------------------------------- 
             ");
                     System.Console.WriteLine($@"
@@ -843,7 +880,7 @@ namespace theprophecy.Models
                         //GO
                         if (command.ToLower().StartsWith("go"))
                         {
-                            if (this.CurrentRoom.Directions.ContainsKey(command))
+                            if (this.CurrentRoom.Directions.ContainsKey(command.ToLower()))
                             {
                                 if (command.ToLower() == "go north")
                                 {
@@ -879,9 +916,9 @@ namespace theprophecy.Models
                                         
                                         ");
                                         this.Player.Score += 15;
-                                        System.Console.Write(">");
+                                        System.Console.Write(">PRESS ENTER<");
                                         Console.ReadLine();
-                                        this.CurrentRoom = this.CurrentRoom.Directions[command];
+                                        this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
                                         roomFour = false;
                                     }
                                     else
@@ -891,6 +928,11 @@ namespace theprophecy.Models
                                         
                                         ");
                                     }
+                                }
+                                else
+                                {
+                                    this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
+                                    roomFour = false;
                                 }
 
                             }
@@ -1022,7 +1064,7 @@ namespace theprophecy.Models
                     System.Console.WriteLine(@"
                                                                     COMMANDS:
 
-                      Go <Direction>   Take <ItemName>   Use <ItemName>   Search <ItemName>   Look   Inventory   Quit   
+                          Go <Direction>   Take <Item>   Use <Item>   Search <Item/Room>   Look   Inventory   Quit   
                     --------------------------------------------------------------------------------------------------- 
             ");
                     System.Console.WriteLine($@"
@@ -1039,9 +1081,9 @@ namespace theprophecy.Models
                         //GO
                         if (command.ToLower().StartsWith("go"))
                         {
-                            if (this.CurrentRoom.Directions.ContainsKey(command))
+                            if (this.CurrentRoom.Directions.ContainsKey(command.ToLower()))
                             {
-                                this.CurrentRoom = this.CurrentRoom.Directions[command];
+                                this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
                                 roomFive = false;
                             }
                             else if (command.ToLower() == "go south west")
@@ -1261,7 +1303,7 @@ namespace theprophecy.Models
                     System.Console.WriteLine(@"
                                                                     COMMANDS:
 
-                      Go <Direction>   Take <ItemName>   Use <ItemName>   Search <ItemName>   Look   Inventory   Quit   
+                          Go <Direction>   Take <Item>   Use <Item>   Search <Item/Room>   Look   Inventory   Quit   
                     --------------------------------------------------------------------------------------------------- 
             ");
                     System.Console.WriteLine($@"
@@ -1278,9 +1320,9 @@ namespace theprophecy.Models
                         //GO
                         if (command.ToLower().StartsWith("go"))
                         {
-                            if (this.CurrentRoom.Directions.ContainsKey(command))
+                            if (this.CurrentRoom.Directions.ContainsKey(command.ToLower()))
                             {
-                                this.CurrentRoom = this.CurrentRoom.Directions[command];
+                                this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
                                 roomSix = false;
                             }
                             else if (command.ToLower() == "go")
@@ -1336,7 +1378,17 @@ namespace theprophecy.Models
                             }
                             else if (this.Player.Inventory.Contains(this.Items["wand"]) && command.ToLower() == "use wand")
                             {
-                                System.Console.WriteLine(@"
+                                if (this.Player.Inventory.Contains(this.Items["uranus"]))
+                                {
+                                    System.Console.WriteLine(@"
+                    No other use for your wand in here.
+                                    
+                                    ");
+                                }
+                                else
+                                {
+
+                                    System.Console.WriteLine(@"
                     You reach out your hand towards a blue planet with rings around it.
 
                             “Reducio!”
@@ -1348,6 +1400,7 @@ namespace theprophecy.Models
                     Uranus floats passed you and you catch Ron holding in a laugh while Hermione rolls her eyes.
                                 
                                 ");
+                                }
                             }
                             else
                             {
@@ -1391,7 +1444,7 @@ namespace theprophecy.Models
                     (Press Enter to Continue)
                                     
                                     ");
-                                    System.Console.Write(@">");
+                                    System.Console.Write(@">PRESS ENTER<");
                                     Console.ReadLine();
                                     this.Player.Score += 20;
                                     this.CurrentRoom = this.Rooms[6];
@@ -1475,13 +1528,62 @@ namespace theprophecy.Models
                     System.Console.WriteLine(@"
                                                                     COMMANDS:
 
-                      Go <Direction>   Take <ItemName>   Use <ItemName>   Search <ItemName>   Look   Inventory   Quit   
+                          Go <Direction>   Take <Item>   Use <Item>   Search <Item/Room>   Look   Inventory   Quit   
                     --------------------------------------------------------------------------------------------------- 
             ");
                     System.Console.WriteLine($@"
-{this.CurrentRoom.Name}            
+{this.CurrentRoom.Name}       
 
-");
+                    Suddenly you're surrounded by light.
+
+                    You're falling.
+
+                    The ground is getting closer...and fast!
+
+                    What do you do!?");
+                    System.Console.Write(@"
+                    >");
+                    string wand = Console.ReadLine();
+                    this.Player.Moves++;
+
+                    if (wand.ToLower() == "use wand")
+                    {
+                        System.Console.WriteLine(@"
+                    Quickly you pull out your wand and shout . . .
+
+                            “Arresto Momentum!”
+
+                    Just as you and your friends are about to hit the floor, everyone comes to a sudden stop.
+
+                    Everyone is floating just a foot above the ground for a split second.
+
+                    Then suddenly everyone falls to the ground.
+
+                            “Quick thinking Harry,” says Ginny, brushing off her jeans.
+
+                    Everyone stands up and looks around the stone chamber.
+                        
+                        ");
+                        this.Player.Score += 5;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine(@"
+                    Before you can do anything, you and your friends hit the stone floor.
+
+                    Everyone is a bit shaken up. 
+
+                            “Is everyone okay?” asks Hermione.
+
+                            “Just a bit shaken,” answers Luna.
+
+                    The rest of the group answers in soft moans.
+
+                    Everything is okay, you must continue.
+
+                        ");
+                        this.Player.Score -= 10;
+                    }
                     bool roomSeven = true;
                     while (roomSeven)
                     {
@@ -1490,9 +1592,214 @@ namespace theprophecy.Models
                         this.Player.Moves++;
 
                         //GO
+                        if (command.ToLower().StartsWith("go"))
+                        {
+                            if (this.CurrentRoom.Directions.ContainsKey(command.ToLower()))
+                            {
+                                this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
+                                roomSeven = false;
+                            }
+                            else if (command.ToLower() == "go")
+                            {
+                                System.Console.WriteLine(@"
+                    You can't wander these halls aimlessly. Specify a direction.
+                    
+                    ");
+                            }
+                            else System.Console.WriteLine(@"
+                    You can't go that way.
+                    
+                    ");
+                        }
                         //TAKE
+                        if (command.ToLower().StartsWith("take"))
+                        {
+                            string command2 = command.TrimStart('t');
+                            string command3 = command2.TrimStart('a');
+                            string command4 = command3.TrimStart('k');
+                            string command5 = command4.TrimStart('e');
+                            string item = command5.TrimStart(' ').ToLower();
+                            if (this.CurrentRoom.Items.ContainsKey(item))
+                            {
+                                this.Player.Inventory.Add(this.CurrentRoom.Items[item]);
+                                System.Console.WriteLine($@"
+                    {this.CurrentRoom.Items[item].Name} added to your inventory.
+                    
+                    ");
+                                this.CurrentRoom.Items.Remove(item);
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(@"
+                    You can't do that.
+
+                                ");
+                            }
+                            if (command.ToLower() == "take gear")
+                            {
+                                this.Player.Score += 15;
+                            }
+                        }
                         //USE
+                        if (command.ToLower().StartsWith("use"))
+                        {
+                            if (this.Player.Inventory.Count == 0)
+                            {
+                                System.Console.WriteLine(@"
+                    You don't have anything to use.
+                    
+                    ");
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(@"
+                    There's nothing to use in here.
+
+                                ");
+                            }
+                        }
                         //SEARCH
+                        if (command.ToLower().StartsWith("search"))
+                        {
+                            if (command.ToLower() == "search veil" || command.ToLower() == "search archway" || command.ToLower() == "search stone archway")
+                            {
+                                System.Console.WriteLine(@"
+                    You step closer to the stone archway. Luna follows behind you.
+
+                            “What do you think they're saying?” you ask, hearing the whispers grow louder.
+
+                            “What who's saying?” responds Ron.
+
+                            “Harry, nobody's saying anything. . .” cautions Hermione.
+
+                            “I hear them, Harry,” says Luna, staring into the stone archway.
+
+                    You're standing right next to the archway now. If you only reach out and push aside the veil. . .
+
+                    Do you reach out and move the veil? (Y/N)");
+                                System.Console.Write(@"
+                    >");
+                                string veil = Console.ReadLine();
+                                this.Player.Moves++;
+                                if (veil.ToLower() == "y")
+                                {
+                                    System.Console.WriteLine(@"
+                    You reach out and push the veil back.
+
+                    Suddenly, behind you, you hear something whoosh by. Hermione, Ginny and Luna all shriek.
+
+                    A black cloaked figure flies overhead.
+
+                    A Dementor. What is a Dementor doing in here!?
+
+                    Other black figures begin to come down on you and your friends.
+
+                    The Demenotrs have circled around you and your friends. 
+
+                    What do you do!?");
+                                    System.Console.Write(@"
+                    >");
+                                    string dementor = Console.ReadLine();
+                                    this.Player.Moves++;
+
+                                    if (dementor.ToLower() == "use wand")
+                                    {
+                                        System.Console.WriteLine(@"
+                    With all the power you have, you close your eyes, collect your thoughts, pull out your wand, then open your eyes and cast . . .
+
+                            “Expecto Patronum!”
+
+                    You hold the wand with both hands, pointing it directly up.
+
+                    A bright white-blue light illuminates from the end. 
+
+                    It grows stronger and stronger as the Dementors try to fight it.
+
+                    Hermione, Neville, Ron, Ginny and Luna all join. Each one casting their own patronus charm.
+
+                    Suddenly, a huge white figure emerges from the tip of your wand. A stag. It stands tall and mighty.
+
+                    It faces a Dementor head on and charges, knocking the Dementor out of sight.
+
+                    All around you can see your friends' patronuses. A rabbit, a jack russel, an otter, a horse and a great mass of light that looks like a cloud.
+
+                    Each one attacks the Dementors, driving them away.
+
+                    You and your friends are safe now.
+                                        
+                                        ");
+                                        this.Player.Score += 10;
+                                    }
+                                    else
+                                    {
+                                        System.Console.WriteLine(@"
+                    You can feel the cold of the Dementors taking over.
+
+                    Your friends break out of the circle and begin to run for the door to the south east.
+
+                    You follow them, the Dementors chasing after you.
+
+                    Ron opens the door, and you see the circular room ahead. Everybody makes it through the door and you slam it shut.
+
+                    You can hear it lock behind you.
+
+                    You and your friends are safe...for now.
+
+                    (Press Enter to Continue)                    
+                                        
+                                        ");
+                                        System.Console.Write(">PRESS ENTER<");
+                                        Console.ReadLine();
+                                        this.Player.Moves++;
+                                        this.CurrentRoom = this.Rooms[4];
+                                        roomSeven = false;
+                                    }
+
+                                }
+                                else
+                                {
+                                    System.Console.WriteLine(@"
+                            “Harry,” Luna states “I think we'd better leave them alone.”
+
+                    You retract your hand and take a step back.
+
+                            “You're right. Let's move on.”
+
+                                    ");
+                                }
+                            }
+                            else if (command.ToLower() == "search room")
+                            {
+                                System.Console.WriteLine(@"
+                    Around the stone chamber you see lines of benches.
+
+                    Besides the stone archway, there also appears to be a podium. 
+
+                    Perhaps this was were a judge would stand?
+
+                    Up the benches to the south east is an exit door.
+
+                                ");
+                            }
+                            else if (command.ToLower() == "search podium")
+                            {
+                                System.Console.WriteLine(@"
+                    You walk up to the podium. There isn't anything on top of it.
+
+                    The podium is made of a dark brown stone. It's rough. You can see marking on the top, where a gavel might hit it.
+
+                    Sitting on the ground near the base of the podium, sits a small metal gear.
+
+                                ");
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(@"
+                    Nothing to see here.
+
+                                ");
+                            }
+                        }
                         //LOOK
                         if (command.ToLower() == "look")
                         {
@@ -1538,6 +1845,18 @@ namespace theprophecy.Models
                     }
                 }
                 #endregion
+
+                #region ROOM EIGHT
+
+                #endregion
+
+                #region ROOM NINE
+
+                #endregion
+
+                #region ROOM TEN
+
+                #endregion
             }
             System.Console.WriteLine(@"
                     --------------------------------------------------------------------------------------------------- 
@@ -1546,7 +1865,7 @@ namespace theprophecy.Models
             System.Console.WriteLine($@"
                                                                 THE END
 
-                                                  Final Score: {this.Player.Score}        Total Moves: {this.Player.Moves}
+                                                Final Score: {this.Player.Score}        Total Moves: {this.Player.Moves}
             ");
         }
     }
