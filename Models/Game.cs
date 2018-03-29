@@ -40,7 +40,7 @@ namespace theprophecy.Models
             Item parchment = new Item("Parchment", "A crumpled up piece of parchment with just one word printed on it, “legilimens”.");
             Item uranus = new Item("Uranus", "A mysterious blue planet with silvery rings. Found in the Planet Room.");
             Item gear = new Item("Gear", "A small, bronze, circular gear. It looks like it's part of some kind of mechanism.");
-            // Item wand = new Item("", "");
+            Item key = new Item("Key", "A golden key that fell from the Grandfather Clock you fixed.");
             // Item wand = new Item("", "");
             // Item wand = new Item("", "");
             // Item wand = new Item("", "");
@@ -53,6 +53,7 @@ namespace theprophecy.Models
             game.Items.Add("parchment", parchment);
             game.Items.Add("uranus", uranus);
             game.Items.Add("gear", gear);
+            game.Items.Add("key", key);
 
             //CREATE ROOMS
             //HOGWARTS
@@ -141,6 +142,7 @@ namespace theprophecy.Models
             entryRoom.Items.Add("parchment", parchment);
             planetRoom.Items.Add("uranus", uranus);
             deathRoom.Items.Add("gear", gear);
+            timeRoom.Items.Add("key", key);
 
             //ADD ROOMS TO THE GAME
             game.Rooms.Add(boysRoom);//0
@@ -1847,7 +1849,243 @@ namespace theprophecy.Models
                 #endregion
 
                 #region ROOM EIGHT
+                else if (this.CurrentRoom == this.Rooms[7])
+                {
+                    Console.Clear();
+                    System.Console.WriteLine(@"
+                    --------------------------------------------------------------------------------------------------- 
+                                                THE PROPHECY: ESCAPE THE DEPARTMENT OF MYSTERIES           
+                    ---------------------------------------------------------------------------------------------------");
+                    System.Console.WriteLine(@"
+                                                                    COMMANDS:
 
+                          Go <Direction>   Take <Item>   Use <Item>   Search <Item/Room>   Look   Inventory   Quit   
+                    --------------------------------------------------------------------------------------------------- 
+            ");
+                    System.Console.WriteLine($@"
+{this.CurrentRoom.Name}            
+
+");
+                    bool fixedClock = false;
+                    bool roomEight = true;
+                    while (roomEight)
+                    {
+                        System.Console.Write(">");
+                        string command = Console.ReadLine();
+                        this.Player.Moves++;
+
+                        //GO
+                        if (command.ToLower().StartsWith("go"))
+                        {
+                            if (this.CurrentRoom.Directions.ContainsKey(command.ToLower()))
+                            {
+                                this.CurrentRoom = this.CurrentRoom.Directions[command.ToLower()];
+                                roomEight = false;
+                            }
+                            else if (command.ToLower() == "go")
+                            {
+                                System.Console.WriteLine(@"
+                    You can't wander these halls aimlessly. Specify a direction.
+                    
+                    ");
+                            }
+                            else System.Console.WriteLine(@"
+                    You can't go that way.
+                    
+                    ");
+                        }
+                        //TAKE
+                        if (command.ToLower().StartsWith("take"))
+                        {
+                            if (fixedClock)
+                            {
+                                string command2 = command.TrimStart('t');
+                                string command3 = command2.TrimStart('a');
+                                string command4 = command3.TrimStart('k');
+                                string command5 = command4.TrimStart('e');
+                                string item = command5.TrimStart(' ').ToLower();
+                                if (this.CurrentRoom.Items.ContainsKey(item))
+                                {
+                                    this.Player.Inventory.Add(this.CurrentRoom.Items[item]);
+                                    System.Console.WriteLine($@"
+                    {this.CurrentRoom.Items[item].Name} added to your inventory.
+                    
+                    ");
+                                    this.CurrentRoom.Items.Remove(item);
+                                }
+                                else
+                                {
+                                    System.Console.WriteLine(@"
+                    You can't do that.
+
+                                ");
+                                }
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(@"
+                    You can't do that.
+
+                                ");
+                            }
+                            if (command.ToLower() == "take key")
+                            {
+                                this.Player.Score += 10;
+                            }
+                        }
+                        //USE
+                        if (command.ToLower().StartsWith("use"))
+                        {
+                            if (this.Player.Inventory.Count == 0)
+                            {
+                                System.Console.WriteLine(@"
+                    You don't have anything to use.
+                    
+                    ");
+                            }
+                            else if (this.Player.Inventory.Contains(this.Items["gear"]) && command.ToLower() == "use gear")
+                            {
+                                System.Console.WriteLine(@"
+                    You walk up to the Grandfather Clock.
+
+                    It's body is made almost entirely from moving parts and gears.
+
+                    But some parts don't seem to be moving. It's hard to tell where the gear would go.
+
+                    What do you do?");
+                                Console.Write(@"
+                    >");
+                                string fix = Console.ReadLine();
+                                this.Player.Moves++;
+                                if (fix.ToLower() == "use wand")
+                                {
+                                    System.Console.WriteLine(@"
+                    You hold out the gear with one hand, and take out your wand in the other.
+
+                            “Reparo!”
+
+                    The gear floats out of your hand and towards the side of the Grandfather Clock.
+
+                    There's a bit of a grinding, a small spark, and then suddenly you can see the pendulum swinging and hear the clock ticking.
+                                    
+                    The hands on the face swirl around and around and suddenly, you hear a clink on the ground in front of you.
+
+                    A small golden key appears to have fallen out of the clock. You better take it, just in case.
+                                    ");
+                                    this.Player.Inventory.Remove(this.Items["gear"]);
+                                    fixedClock = true;
+                                }
+                                else
+                                {
+                                    System.Console.WriteLine(@"
+                    Hmm, nothing seemed to happen.
+                                    
+                                    ");
+                                }
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(@"
+                    You can't do that.
+
+                                ");
+                            }
+                        }
+                        //SEARCH
+                        if (command.ToLower().StartsWith("search"))
+                        {
+                            if (command.ToLower() == "search bell jar")
+                            {
+                                System.Console.WriteLine(@"
+                    The bell jar stands about two meters tall.
+
+                    Inside, you see a hummingbird, floating just below eyelevel.
+
+                    It's surrounded by a golden dust. It looks just like the dust inside of a time-turner.
+
+                            “I think that's time.” says Hermione, covering her mouth in awe.
+
+                            “Yeah, it looks like the inside of your old time-turner,” you reply.
+
+                    As the hummingbird flies higher, it suddenly deteriorates and becomes pure bone.
+
+                    It then slowly makes it's way downward. Turning back into a young hummingbird and a baby bird.
+                    
+                    And then, as it reaches just centimeters above the ground. . .
+
+                            “Oh my, it's turned back into an egg,” says Luna.
+
+                    And indeed it had. What a strange bell jar. A jar of time.
+                                
+                                ");
+                            }
+                            else if (command.ToLower() == "search clock" || command.ToLower() == "search grandfather clock")
+                            {
+                                System.Console.WriteLine(@"
+                    You approach the Grandfather Clock.
+
+                    The entire room is ticking. . .but this clock doesn't seem to be.
+
+                            “Hmm, this one appears to be broken,” states Hermione.
+
+                    You can see that only some of the gears seems to be moving.
+
+                    It's quite easy to notice, seeing as the entire clock's body is made of gears and dials.
+                                
+                                ");
+                            }
+                            else
+                            {
+                                System.Console.WriteLine(@"
+                    Nothing to see here.
+
+                                ");
+                            }
+                        }
+                        //LOOK
+                        if (command.ToLower() == "look")
+                        {
+                            System.Console.WriteLine($@"
+                    {this.CurrentRoom.Description}
+
+                            ");
+                        }
+                        //INVENTORY
+                        if (command.ToLower() == "inventory")
+                        {
+                            System.Console.WriteLine($@"
+                    Score: {this.Player.Score}  Moves: {this.Player.Moves}
+                    ------------------------------------------
+                                    INVENTORY:
+                            ");
+                            this.Player.Inventory.ForEach(Item =>
+                            {
+                                System.Console.WriteLine($@"
+                    {Item.Name}: {Item.Description}
+                            ");
+                            });
+                            System.Console.WriteLine(@"
+                    ------------------------------------------   
+
+                            ");
+                        }
+                        //QUIT
+                        if (command.ToLower() == "quit")
+                        {
+                            System.Console.WriteLine(@"
+                    Are you sure you'd like to quit? (Y/N)
+
+                            ");
+                            System.Console.Write(">");
+                            string quit = Console.ReadLine();
+                            if (quit.ToLower() == "y")
+                            {
+                                playGame = false;
+                                roomEight = false;
+                            }
+                        }
+                    }
+                }
                 #endregion
 
                 #region ROOM NINE
