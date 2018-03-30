@@ -2241,7 +2241,7 @@ namespace theprophecy.Models
                                         ");
                                         this.Player.Inventory.Add(this.Items["memory"]);
                                         System.Console.WriteLine($@"
-                    {this.Items["memory"]} added to your inventory.
+                    {this.Items["memory"].Name} added to your inventory.
                     
                     ");
                                         this.CurrentRoom.Items.Remove("memory");
