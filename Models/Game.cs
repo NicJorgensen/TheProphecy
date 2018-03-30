@@ -1969,7 +1969,6 @@ namespace theprophecy.Models
 {this.CurrentRoom.Name}            
 
 ");
-                    bool fixedClock = false;
                     bool roomEight = true;
                     while (roomEight)
                     {
@@ -2521,7 +2520,7 @@ namespace theprophecy.Models
                                 
                                 ");
                                 north++;
-                                this.Player.Score += 20;
+                                this.Player.Score += 15;
                             }
                             else if (command.ToLower() == "go north" && north == 2)
                             {
@@ -2552,7 +2551,7 @@ namespace theprophecy.Models
                                 
                                 ");
                                 north++;
-                                this.Player.Score += 30;
+                                this.Player.Score += 20;
                                 ready = true;
                             }
                             else if (command.ToLower() == "go")
