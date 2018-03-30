@@ -2000,41 +2000,10 @@ namespace theprophecy.Models
                         //TAKE
                         if (command.ToLower().StartsWith("take"))
                         {
-                            if (fixedClock)
-                            {
-                                string command2 = command.ToLower().TrimStart('t');
-                                string command3 = command2.ToLower().TrimStart('a');
-                                string command4 = command3.ToLower().TrimStart('k');
-                                string command5 = command4.ToLower().TrimStart('e');
-                                string item = command5.TrimStart(' ').ToLower();
-                                if (this.CurrentRoom.Items.ContainsKey(item))
-                                {
-                                    this.Player.Inventory.Add(this.CurrentRoom.Items[item]);
-                                    System.Console.WriteLine($@"
-                    {this.CurrentRoom.Items[item].Name} added to your inventory.
-                    
-                    ");
-                                    this.CurrentRoom.Items.Remove(item);
-                                }
-                                else
-                                {
-                                    System.Console.WriteLine(@"
+                            System.Console.WriteLine(@"
                     You can't do that.
 
                                 ");
-                                }
-                            }
-                            else
-                            {
-                                System.Console.WriteLine(@"
-                    You can't do that.
-
-                                ");
-                            }
-                            if (command.ToLower() == "take key")
-                            {
-                                this.Player.Score += 10;
-                            }
                         }
                         //USE
                         if (command.ToLower().StartsWith("use"))
@@ -2076,7 +2045,13 @@ namespace theprophecy.Models
                     A small golden key appears to have fallen out of the clock. You better take it, just in case.
                                     ");
                                     this.Player.Inventory.Remove(this.Items["gear"]);
-                                    fixedClock = true;
+                                    this.Player.Inventory.Add(this.CurrentRoom.Items["key"]);
+                                    System.Console.WriteLine($@"
+                    {this.CurrentRoom.Items["key"].Name} added to your inventory.
+                    
+                    ");
+                                    this.CurrentRoom.Items.Remove("key");
+                                    this.Player.Score += 10;
                                 }
                                 else
                                 {
@@ -2496,25 +2471,88 @@ namespace theprophecy.Models
                     Frantically, you search the shelves as you pass them. . .
 
                     But suddenly you're brought to a halt by a hooded figure.
-                                
+
+                    A Death Eater. One of Voldemort's followers.
+
+                    Immediately, you cast a disarming spell at him, but he blocks it.
+
+                            “Stay back!” you shout to your friends, but they're having trouble too.
+
+                            “Petrificus Totalus!”
+
+                            “Protego!”
+
+                            “Expelliarmus!”
+
+                    Your friends are casting spells at a number of Death Eaters that have now surrounded your group.
+
+                    Prophecies are crashing to the ground, exploding into blue dust as they hit.
+
+                    You give Ginny a determined look and, determined, she points her wand at two of the Death Eaters. . .
+
+                            “Reducto!”
+
+                    They go flying back into the darkness. The remaining Death Eaters turn into a cloud of darkness and fly off.
+
+                    They've retreated. The only way to go is north.    
+
                                 ");
                                 north++;
+                                this.Player.Score += 10;
                             }
                             else if (command.ToLower() == "go north" && north == 1)
                             {
                                 System.Console.WriteLine(@"
-                    2
+                    You and your friends continue forward.
+
+                            “Is everyone okay?” ask Ron.
+
+                    Hermione and Luna nod. Ginny gives a muddled “Yes.”
+
+                    Neville doesn't respond. He looks quite shaken.
+
+                    You stop.
+
+                            “It's going to be alright, Neville,” you say.
+
+                            “Thanks Harry, I've never felt so brave.”
+
+                    The only way to go is north.
                                 
                                 ");
                                 north++;
+                                this.Player.Score += 20;
                             }
                             else if (command.ToLower() == "go north" && north == 2)
                             {
                                 System.Console.WriteLine(@"
-                    3
+                    You continue a bit farth down the endless shelves.
+
+                            “Wait. . .this is it.”
+
+                    You approach a blue orb, you can hear it.
+
+                    As you get closer you reach out and grab it.
+
+                    You can hear what it says. . .
+
+                            “One with the power to vanquish Voldemort.
+
+                            Born to those who have thrice defied him,
+
+                            born as the seventh month dies.
+
+                            And the Dark Lord will mark him as his equal,
+
+                            but he will have power the Dark Lord knows not.
+
+                            And either must die at the hand of the other,
+
+                            for neither can live while the other survives.”
                                 
                                 ");
                                 north++;
+                                this.Player.Score += 30;
                                 ready = true;
                             }
                             else if (command.ToLower() == "go")
@@ -2549,6 +2587,35 @@ namespace theprophecy.Models
                     ");
                                 this.CurrentRoom.Items.Remove(item);
                                 this.Player.Score += 35;
+
+                                System.Console.WriteLine(@"
+                    You now hold the prophecy. Voldemort will never know these words.
+
+                            “Now how do we escape?” asks Ron.
+
+                            “I've got an idea,” replies Hermione.
+
+                    She closes her eyes and holds the tip of her wand to her lips. She whispers.
+
+                    As she finishes, blue mist emerges from her wand and forms an otter.
+
+                    The otter swims up and out of the Hall of Prophecies.
+
+                            “What did you do?” asks Luna.
+
+                            “I sent a message to Dumbledore. I'm sure he'll send help now.” 
+
+                    And sure enough, a mass of light appeared to the south. A huge cloud of light.
+
+                    And there stood Sirius, Tonks, Lupin and other members of the Order of the Phoenix.
+
+                            “Come now, Harry.” speaks Siruis “Let's get out of here.”
+
+                    You run up and give Sirius a hug.
+
+                            “You'll need to use your wand Harry.”
+
+                                ");
                             }
                             else
                             {
@@ -2571,6 +2638,46 @@ namespace theprophecy.Models
                             else if (this.Player.Inventory.Contains(this.Items["prophecy"]) && command.ToLower() == "use wand")
                             {
                                 //END STORY
+
+                                System.Console.WriteLine(@"
+                    You raise your wand and join the members of the Order.
+
+                    A white cloud surrounds everyone and you lift off the ground.
+
+                    As you and the rest of the Order begin to leave the Department of Mysteries, you can hear a laugh.
+
+                    Black smoke surrounds you and suddenly you're back in the Death Room.
+
+                    You've been stopped by Bellatrix and her Death Eater friends.
+
+                    A battle breaks out, filling the entire room with curses and charms.
+
+                    As you battle with Sirius next to the archway, you hear a voice behind you scream.
+
+                            “Avada Kadavra!”
+
+                    There's a flash of green light and Sirius stops moving. You catch him before he falls to the ground. All life as left him.
+                    
+                    The whispers of the stone archway become louder and the veil opens up, taking Sirius' body from your arms.
+
+                            Bellatrix runs away screaming and taunting, “I killed Sirius Black! I killed Sirius Black.”
+
+                    You have no choice but to chase her down. As you run, the prophecy falls from your hand and smashes to the ground.
+
+                            “Crucio!” you scream at her, shooting a bolt of red light from your wand.
+
+                    She falls to the ground, squirming. Before you can do anything else, Lupin grabs your shoulder and the white cloud of light surrounds you again.
+
+                    You've escaped. The prophecy is gone. Sirius is dead. . .but your friends and you are safe.
+
+                    This is only the beginning of a new Wizarding War.
+                                
+                                ");
+                                Console.Write(@"
+                    >PRESS ENTER<
+                                
+                                ");
+                                Console.ReadLine();
 
                                 System.Console.WriteLine(@"
                             __   __                    _____                                           _   _ 
