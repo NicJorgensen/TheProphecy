@@ -1,4 +1,5 @@
 # TheProphecy CheatSheet
+
 >take wand
 >take invisibility cloak
 >go east
