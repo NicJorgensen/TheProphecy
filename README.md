@@ -1,6 +1,6 @@
 # TheProphecy - How To Play
 1. Go to your Console
-2. Create an empty file path. 
+2. Create an empty file path
 # -----Console Commands-----
 3. git -clone https://github.com/NicJorgensen/TheProphecy.git 
 4. cd theprophecy
