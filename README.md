@@ -2,9 +2,9 @@
 1. Go to your Console
 2. Create an empty file path. 
 3.-----Console Commands-----
-git -clone https://github.com/NicJorgensen/TheProphecy.git 
-cd theprophecy
-dotnet run
+$ git -clone https://github.com/NicJorgensen/TheProphecy.git 
+$ cd theprophecy
+$ dotnet run
 ----Enjoy the game!-----
 
 # TheProphecy CheatSheet
