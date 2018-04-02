@@ -1,11 +1,11 @@
 # TheProphecy - How To Play
 1. Go to your Console
 2. Create an empty file path. 
-3.-----Console Commands-----
-$ git -clone https://github.com/NicJorgensen/TheProphecy.git 
-$ cd theprophecy
-$ dotnet run
-----Enjoy the game!-----
+# -----Console Commands-----
+3. git -clone https://github.com/NicJorgensen/TheProphecy.git 
+4. cd theprophecy
+5. dotnet run
+# ----Enjoy the game!-----
 
 # TheProphecy CheatSheet
 
